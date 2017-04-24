@@ -1,0 +1,35 @@
+#!/bin/bash
+# T-Bone Lu
+#
+trap 'cleanup' SIGUSR1 SIGINT SIGHUP SIGQUIT SIGTERM SIGSTOP
+PROGRAMNAME=${0##*/}
+VERSION=1.2
+
+logDir=/var/log
+logfile=synctime.log
+
+cleanup() {
+        exit 0
+}
+
+echo "Original Hardware Clock:" | tee -a ${logDir}/${logfile}
+hwclock | tee -a ${logDir}/${logfile}
+
+echo "Original System Clock:" | tee -a ${logDir}/${logfile}
+date | tee -a ${logDir}/${logfile}
+
+echo "Fix Timezone : Asia/Hong_Kong -> localtime"  | tee -a ${logDir}/${logfile}
+ln -fs /usr/share/zoneinfo/Asia/Hong_Kong /etc/localtime | tee -a ${logDir}/${logfile}
+
+echo "Synchronize Time :""$textc_s" | tee -a ${logDir}/${logfile} 
+ntpdate time.stdtime.gov.tw | tee -a ${logDir}/${logfile}
+
+echo "Correction System Clock:" |tee -a ${logDir}/${logfile}
+date | tee -a ${logDir}/${logfile}
+
+echo "Set the Hardware Clock to the current System Time!" |tee -a ${logDir}/${logfile}
+clock -w | tee -a ${logDir}/${logfile}
+
+echo "Correction Hardware Clock:" | tee -a ${logDir}/${logfile}
+hwclock | tee -a ${logDir}/${logfile}
+echo | tee -a ${logDir}/${logfile}
