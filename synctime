@@ -18,8 +18,8 @@ hwclock | tee -a ${logDir}/${logfile}
 echo "Original System Clock:" | tee -a ${logDir}/${logfile}
 date | tee -a ${logDir}/${logfile}
 
-echo "Fix Timezone : Asia/Hong_Kong -> localtime"  | tee -a ${logDir}/${logfile}
-ln -fs /usr/share/zoneinfo/Asia/Hong_Kong /etc/localtime | tee -a ${logDir}/${logfile}
+echo "Fix Timezone : Asia/Shanghai -> localtime"  | tee -a ${logDir}/${logfile}
+ln -fs /usr/share/zoneinfo/Asia/Shanghai /etc/localtime | tee -a ${logDir}/${logfile}
 
 echo "Synchronize Time :""$textc_s" | tee -a ${logDir}/${logfile} 
 ntpdate time4.google.com | tee -a ${logDir}/${logfile}
